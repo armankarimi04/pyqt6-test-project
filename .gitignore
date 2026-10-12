@@ -1,0 +1,8 @@
+whls
+.venv
+*.db
+*.sqlite
+*.pyc
+*.pyo
+vscode
+__pycache__

@@ -1,29 +1,42 @@
 import sys
 
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QAction
-from PyQt6.QtWidgets import QApplication, QLabel, QMainWindow, QMenu
-
+from PyQt6.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout
+from layout_colorwidget import Color
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.show()
+        self.setWindowTitle("My App")
 
-        self.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.on_context_menu)
+        layout1 = QHBoxLayout()
+        layout2 = QVBoxLayout()
+        layout3 = QVBoxLayout()
 
-    def on_context_menu(self, pos):
-        context = QMenu(self)
-        context.addAction(QAction("test 1", self))
-        context.addAction(QAction("test 2", self))
-        context.addAction(QAction("test 3", self))
-        context.exec(self.mapToGlobal(pos))
+        layout2.addWidget(Color("red"))
+        layout2.addWidget(Color("yellow"))
+        layout2.addWidget(Color("purple"))
+
+        layout1.setContentsMargins(2, 2, 2, 2)
+        layout1.setSpacing(5)
+
+        layout1.addLayout(layout2)
+
+        layout1.addWidget(Color("green"))
+
+        layout3.addWidget(Color("red"))
+        layout3.addWidget(Color("purple"))
+
+        layout1.addLayout(layout3)
+
+        widget = QWidget()
+        widget.setLayout(layout1)
+        self.setCentralWidget(widget)
 
 
 app = QApplication(sys.argv)
-
 window = MainWindow()
 window.show()
 
-app.exec()
+if __name__ == "__main__":
+    app.exec()
+print("End of file")

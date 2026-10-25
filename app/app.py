@@ -4,8 +4,8 @@ from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QDialog, QDi
 
 
 class CustomDialog(QDialog):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, parent=None):
+        super().__init__(parent)
         self.setWindowTitle("HELLO!")
         QBtn = (
             QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel
@@ -35,7 +35,7 @@ class MainWindow(QMainWindow):
     def button_clicked(self, s):
         print("click", s)
 
-        dlg = CustomDialog()
+        dlg = CustomDialog(self)
         if dlg.exec():
             print("success")
         else:

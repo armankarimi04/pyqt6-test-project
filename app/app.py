@@ -1,38 +1,41 @@
+from PyQt6.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget
+
 import sys
 
-from PyQt6.QtWidgets import QApplication, QMainWindow, QMessageBox, QPushButton
+from random import randint
+
+
+class AnotherWindow(QWidget):
+    """
+    This "window" is a QWidget. If it has no parent, it
+    will appear as a free-floating window as we want.
+    """
+    def __init__(self):
+        super().__init__()
+        layout = QVBoxLayout()
+        self.label = QLabel("Another Window % d" % randint(0,100))
+        layout.addWidget(self.label)
+        self.setLayout(layout)
 
 
 class MainWindow(QMainWindow):
+
     def __init__(self):
         super().__init__()
+        self.w = AnotherWindow()
+        self.button = QPushButton("Push for Window")
+        self.button.clicked.connect(self.toggle_window)
+        self.setCentralWidget(self.button)
 
-        self.setWindowTitle("My App")
+    def toggle_window(self, checked):
+        if self.w.isVisible():
+            self.w.hide()
 
-        button = QPushButton("Press me for a dialog!")
-        button.clicked.connect(self.button_clicked)
-        self.setCentralWidget(button)
-
-    def button_clicked(self, s):
-        button = QMessageBox.critical(
-            self,
-            "Oh dear!",
-            "Something went very wrong.",
-            buttons=QMessageBox.StandardButton.Discard
-            | QMessageBox.StandardButton.NoToAll
-            | QMessageBox.StandardButton.Ignore,
-            defaultButton=QMessageBox.StandardButton.Discard,
-        )
-
-        if button == QMessageBox.StandardButton.Discard:
-            print("Discard!")
-        elif button == QMessageBox.StandardButton.NoToAll:
-            print("No to all!")
         else:
-            print("Ignore!")
+            self.w.show()
 
 
 app = QApplication(sys.argv)
-window = MainWindow()
-window.show()
+w = MainWindow()
+w.show()
 app.exec()
